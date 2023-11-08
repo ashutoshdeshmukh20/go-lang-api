@@ -18,15 +18,19 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Login to AWS ECR
+        run: |
+          aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 581741715630.dkr.ecr.ap-south-1.amazonaws.com
         env:
           AWS_REGION: ap-south-1
-        run: |
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 581741715630.dkr.ecr.ap-south-1.amazonaws.com
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Build and push Docker image
-        env:
-          AWS_REGION: ap-south-1
         run: |
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
+        env:
+          AWS_REGION: ap-south-1
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
