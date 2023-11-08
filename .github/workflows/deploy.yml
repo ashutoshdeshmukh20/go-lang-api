@@ -52,14 +52,8 @@ jobs:
         env:
           AWS_REGION: ap-south-1
 
-      - name: Update ECS Service to Use New Task Definition
+      - name: Update ECS Service
         run: |
-          aws ecs update-service --cluster go-api-template --service go-api-service --task-definition go-api-template
-        env:
-          AWS_REGION: ap-south-1
-
-      - name: Wait for Service to Stabilize
-        run: |
-          aws ecs wait services-stable --cluster my-ecs-cluster --services go-api-service
+          aws ecs update-service --cluster go-api-template --service go-api-service --force-new-deployment --desired-count 1
         env:
           AWS_REGION: ap-south-1
