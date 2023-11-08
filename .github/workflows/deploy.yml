@@ -31,8 +31,3 @@ jobs:
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
-        env:
-          AWS_REGION: ap-south-1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
