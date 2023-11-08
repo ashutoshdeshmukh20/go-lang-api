@@ -44,8 +44,8 @@ jobs:
               {
                 "name": "go-api-td",
                 "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest",
-                "memory": 0.5,
-                "cpu": 0.25
+                "memory": 512,
+                "cpu": 256
               }
             ]
           }'
