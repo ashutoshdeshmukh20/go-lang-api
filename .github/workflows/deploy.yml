@@ -34,3 +34,26 @@ jobs:
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
         env:
           AWS_REGION: ap-south-1
+          name: Push to ECR and Update ECS
+
+      - name: Update ECS Task Definition
+        run: |
+          aws ecs register-task-definition --cli-input-json '{
+            "family": "",
+            "containerDefinitions": [
+              {
+                "name": "go-api-td",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest",
+                "memory": 0.5,
+                "cpu": 0.25
+              }
+            ]
+          }'
+        env:
+          AWS_REGION: ap-south-1
+
+      - name: Update ECS Service
+        run: |
+          aws ecs update-service --cluster go-api-template --service go-api-serv --force-new-deployment
+        env:
+          AWS_REGION: ap-south-1
