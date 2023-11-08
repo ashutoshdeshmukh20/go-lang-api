@@ -12,7 +12,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "hello world1")
+		c.String(http.StatusOK, "hello whistlemind")
 	})
 	r.Run()
 }
