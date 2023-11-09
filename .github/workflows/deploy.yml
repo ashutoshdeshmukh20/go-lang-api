@@ -40,7 +40,7 @@ jobs:
       - name: Update ECS Task Definition
         run: |
           aws ecs register-task-definition --cli-input-json '{
-            "family": "go-api-template",
+            "family": "go-deploy",
             "containerDefinitions": [
               {
                 "name": "go-api-td",
@@ -92,7 +92,7 @@ jobs:
       - name: Update ECS Task Definition
         run: |
           aws ecs register-task-definition --cli-input-json '{
-            "family": "go-api-template",
+            "family": "go-stage",
             "containerDefinitions": [
               {
                 "name": "go-api-td",
