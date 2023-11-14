@@ -95,7 +95,7 @@ jobs:
             "family": "go-staging-deployment",
             "containerDefinitions": [
               {
-                "name": "go-api-td",
+                "name": "go-staging-deployment",
                 "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest",
                 "memory": 512,
                 "cpu": 256
