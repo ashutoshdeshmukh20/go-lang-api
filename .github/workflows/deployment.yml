@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - main
 
 jobs:
   build-deploy-develop:
@@ -42,7 +43,7 @@ jobs:
             "family": "go-develop-deployment",
             "containerDefinitions": [
               {
-                "name": "go-api-td",
+                "name": "go-develop-container",
                 "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest",
                 "memory": 512,
                 "cpu": 256
@@ -94,7 +95,7 @@ jobs:
             "family": "go-staging-deployment",
             "containerDefinitions": [
               {
-                "name": "go-api-td",
+                "name": "go-staging-deployment",
                 "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest",
                 "memory": 512,
                 "cpu": 256
