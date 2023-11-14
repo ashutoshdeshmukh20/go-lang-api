@@ -55,7 +55,7 @@ jobs:
 
       - name: Update ECS Service
         run: |
-          aws ecs update-service --cluster go-api-template --service development --force-new-deployment --desired-count 1
+          aws ecs update-service --cluster go-api-template --service deployment --force-new-deployment --desired-count 1
         env:
           AWS_REGION: ap-south-1
 
