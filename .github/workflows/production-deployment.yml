@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-deploy-production:
-    if: github.event_name == 'workflow_distpatch' && github.ref == 'refs/heads/prod'
+    if: github.ref == 'refs/heads/prod'
     runs-on: ubuntu-latest
 
     steps:
