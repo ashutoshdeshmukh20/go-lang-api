@@ -5,6 +5,11 @@ on:
     branches:
       - develop
       - main
+  workflow_dispatch: # Manual trigger for production
+    inputs:
+      environment:
+        required: true
+        default: 'prod'
 
 jobs:
   build-deploy-develop:
