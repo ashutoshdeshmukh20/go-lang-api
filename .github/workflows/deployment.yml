@@ -44,19 +44,16 @@ jobs:
           version_numbers=($(echo "$current_version" | tr '.' ' '))
           major=${version_numbers[0]:1}
           minor=${version_numbers[1]}
-          if [ "$minor" -eq 9 ]; then
-            new_version="v$(( major + 1 )).0"
-          else
-            new_version="v$major.$(( minor + 1 ))"
-          fi
+          new_minor=$(( minor + 1 ))
+          new_version="v$major.$new_minor"
           echo "::set-output name=NEW_VERSION::$new_version"
 
       - name: Build and push Docker image
         run: |
-          VERSION=$NEW_VERSION
+          VERSION="${{ steps.increment_version.outputs.NEW_VERSION }}"
           docker build -t go-api-template .
-          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
+          docker tag go-api-template:latest "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION"
+          docker push "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION"
         env:
           AWS_REGION: ap-south-1
           name: Push to ECR and Update ECS
