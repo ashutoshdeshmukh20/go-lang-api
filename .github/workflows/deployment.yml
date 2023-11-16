@@ -28,11 +28,16 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Generate timestamp for versioning
+        id: timestamp
+        run: echo "::set-output name=TIMESTAMP::$(date +%Y%m%d%H%M%S)"
+
       - name: Build and push Docker image
         run: |
+          VERSION="v1.${{ steps.timestamp.outputs.TIMESTAMP }}"
           docker build -t go-api-template .
-          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
+          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
+          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
         env:
           AWS_REGION: ap-south-1
           name: Push to ECR and Update ECS
@@ -80,11 +85,16 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Generate timestamp for versioning
+        id: timestamp
+        run: echo "::set-output name=TIMESTAMP::$(date +%Y%m%d%H%M%S)"
+
       - name: Build and push Docker image
         run: |
+          VERSION="v1.${{ steps.timestamp.outputs.TIMESTAMP }}"
           docker build -t go-api-template .
-          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest
+          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
+          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
         env:
           AWS_REGION: ap-south-1
           name: Push to ECR and Update ECS
