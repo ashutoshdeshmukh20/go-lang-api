@@ -31,12 +31,12 @@ jobs:
       - name: Generate timestamp for versioning
         id: timestamp
         run: |
-          IST_TIME=$(TZ=Asia/Kolkata date +%Y.%m.%d.%H.%M)
+          IST_TIME=$(TZ=Asia/Kolkata date +%Y%m%d%H%M)
           echo "::set-output name=IST_TIMESTAMP::$IST_TIME"
 
       - name: Build and push Docker image
         run: |
-          VERSION="v1.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
+          VERSION="v.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
