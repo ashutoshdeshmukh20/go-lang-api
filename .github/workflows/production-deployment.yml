@@ -3,12 +3,17 @@ name: Production Deployment
 on:
   workflow_dispatch:
     inputs:
+      image_name:
+        description: 'Name of the Docker image'
+        required: true
+        default: 'your-default-image-name'
+      image_tag:
+        description: 'Tag for the Docker image'
+        required: true
+        default: 'latest'
       environment:
         required: true
         default: 'prod'
-      docker_image_name:
-        required: true
-        description: 'Name of the Docker image'
 
 jobs:
   build-deploy-production:
@@ -33,9 +38,9 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ github.event.inputs.docker_image_name }} .
-          docker tag ${{ github.event.inputs.docker_image_name }}:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/${{ github.event.inputs.docker_image_name }}:latest
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/${{ github.event.inputs.docker_image_name }}:latest
+          docker build -t ${{ github.event.inputs.image_name }} .
+          docker tag ${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }} 581741715630.dkr.ecr.ap-south-1.amazonaws.com/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}
+          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}
         env:
           AWS_REGION: ap-south-1
 
@@ -46,7 +51,7 @@ jobs:
             "containerDefinitions": [
               {
                 "name": "go-production-deployment",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/${{ github.event.inputs.docker_image_name }}:latest",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}",
                 "memory": 512,
                 "cpu": 256
               }
