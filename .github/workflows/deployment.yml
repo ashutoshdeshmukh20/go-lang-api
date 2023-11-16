@@ -28,13 +28,32 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Generate timestamp for versioning
-        id: timestamp
-        run: echo "::set-output name=TIMESTAMP::$(date +%Y%m%d%H%M%S)"
+      - name: Get latest version from ECR
+        id: get_latest_version
+        run: |
+          latest_version=$(aws ecr describe-images --repository-name go-api-template --query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags' --output text | grep -E '^v[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+          if [ -z "$latest_version" ]; then
+            latest_version="v1.0"
+          fi
+          echo "::set-output name=VERSION::$latest_version"
+
+      - name: Increment version number
+        id: increment_version
+        run: |
+          current_version=$VERSION
+          version_numbers=($(echo "$current_version" | tr '.' ' '))
+          major=${version_numbers[0]:1}
+          minor=${version_numbers[1]}
+          if [ "$minor" -eq 9 ]; then
+            new_version="v$(( major + 1 )).0"
+          else
+            new_version="v$major.$(( minor + 1 ))"
+          fi
+          echo "::set-output name=NEW_VERSION::$new_version"
 
       - name: Build and push Docker image
         run: |
-          VERSION="v1.${{ steps.timestamp.outputs.TIMESTAMP }}"
+          VERSION=$NEW_VERSION
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
