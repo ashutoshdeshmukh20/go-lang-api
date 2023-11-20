@@ -38,8 +38,8 @@ jobs:
         run: |
           VERSION="${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}"
           docker build -t go-api-template .
-          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
+          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
+          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
         env:
           AWS_REGION: ap-south-1
           name: Push to ECR and Update ECS
@@ -51,7 +51,7 @@ jobs:
             "containerDefinitions": [
               {
                 "name": "develop-container",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
                 "memory": 512,
                 "cpu": 256
               }
@@ -97,8 +97,8 @@ jobs:
         run: |
           VERSION="${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}"
           docker build -t go-api-template .
-          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
+          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
+          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
         env:
           AWS_REGION: ap-south-1
           name: Push to ECR and Update ECS
@@ -110,7 +110,7 @@ jobs:
             "containerDefinitions": [
               {
                 "name": "stage-deployment",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
                 "memory": 512,
                 "cpu": 256
               }
