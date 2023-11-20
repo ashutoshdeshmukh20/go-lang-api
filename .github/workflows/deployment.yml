@@ -47,7 +47,7 @@ jobs:
       - name: Update ECS Task Definition
         run: |
           aws ecs register-task-definition --cli-input-json '{
-            "family": "go-develop-deployment",
+            "family": "develop-deployment",
             "containerDefinitions": [
               {
                 "name": "go-develop-container",
