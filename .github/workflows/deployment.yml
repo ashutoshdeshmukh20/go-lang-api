@@ -51,7 +51,7 @@ jobs:
             "containerDefinitions": [
               {
                 "name": "develop-container",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:'$VERSION'",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
                 "memory": 512,
                 "cpu": 256
               }
@@ -110,7 +110,7 @@ jobs:
             "containerDefinitions": [
               {
                 "name": "stage-deployment",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:'$VERSION'",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
                 "memory": 512,
                 "cpu": 256
               }
