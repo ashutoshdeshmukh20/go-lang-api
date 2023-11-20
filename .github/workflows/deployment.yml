@@ -36,7 +36,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          VERSION="v1.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
+          VERSION="dev-v1.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
@@ -94,7 +94,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          VERSION="v1.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
+          VERSION="stage-v1.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
