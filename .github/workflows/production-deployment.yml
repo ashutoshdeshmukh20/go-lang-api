@@ -39,7 +39,7 @@ jobs:
             "containerDefinitions": [
               {
                 "name": "production-deployment",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-app:${{ github.event.inputs.image_tag }}",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:${{ github.event.inputs.image_tag }}",
                 "memory": 512,
                 "cpu": 256
               }
