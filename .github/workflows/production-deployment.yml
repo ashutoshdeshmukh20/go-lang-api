@@ -30,7 +30,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Pull Docker image from ECR
-        run: docker pull 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:${{ github.event.inputs.image_tag }}
+        run: docker pull 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:${{ github.event.inputs.image_tag }}
 
       - name: Update ECS Task Definition
         run: |
@@ -39,7 +39,7 @@ jobs:
             "containerDefinitions": [
               {
                 "name": "production-deployment",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:${{ github.event.inputs.image_tag }}",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:${{ github.event.inputs.image_tag }}",
                 "memory": 512,
                 "cpu": 256
               }
