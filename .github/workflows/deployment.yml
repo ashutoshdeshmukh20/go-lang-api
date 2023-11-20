@@ -38,8 +38,8 @@ jobs:
         run: |
           VERSION="${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}"
           docker build -t go-api-template .
-          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
+          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
+          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
         env:
           AWS_REGION: ap-south-1
           name: Push to ECR and Update ECS
@@ -47,11 +47,11 @@ jobs:
       - name: Update ECS Task Definition
         run: |
           aws ecs register-task-definition --cli-input-json '{
-            "family": "go-develop-deployment",
+            "family": "develop",
             "containerDefinitions": [
               {
-                "name": "go-develop-container",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest",
+                "name": "develop-container",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
                 "memory": 512,
                 "cpu": 256
               }
@@ -62,7 +62,7 @@ jobs:
 
       - name: Update ECS Service
         run: |
-          aws ecs update-service --cluster go-develop-deployment --service develop --force-new-deployment --desired-count 1
+          aws ecs update-service --cluster go-dev --service develop --force-new-deployment --desired-count 1
         env:
           AWS_REGION: ap-south-1
 
@@ -97,8 +97,8 @@ jobs:
         run: |
           VERSION="${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}"
           docker build -t go-api-template .
-          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
-          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
+          docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
+          docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:$VERSION
         env:
           AWS_REGION: ap-south-1
           name: Push to ECR and Update ECS
@@ -106,11 +106,11 @@ jobs:
       - name: Update ECS Task Definition
         run: |
           aws ecs register-task-definition --cli-input-json '{
-            "family": "go-staging-deployment",
+            "family": "stage",
             "containerDefinitions": [
               {
-                "name": "go-staging-deployment",
-                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:latest",
+                "name": "stage-deployment",
+                "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-project:${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}",
                 "memory": 512,
                 "cpu": 256
               }
@@ -121,6 +121,6 @@ jobs:
 
       - name: Update ECS Service
         run: |
-          aws ecs update-service --cluster go-staging-deployment --service staging --force-new-deployment --desired-count 1
+          aws ecs update-service --cluster go-stage --service stage --force-new-deployment --desired-count 1
         env:
           AWS_REGION: ap-south-1
