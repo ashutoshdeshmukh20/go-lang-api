@@ -35,10 +35,10 @@ jobs:
       - name: Update ECS Task Definition
         run: |
           aws ecs register-task-definition --cli-input-json '{
-            "family": "go-production-deployment",
+            "family": "prod",
             "containerDefinitions": [
               {
-                "name": "go-production-deployment",
+                "name": "production-deployment",
                 "image": "581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-app:${{ github.event.inputs.image_tag }}",
                 "memory": 512,
                 "cpu": 256
@@ -50,6 +50,6 @@ jobs:
 
       - name: Update ECS Service
         run: |
-          aws ecs update-service --cluster go-production-deployment --service production --force-new-deployment --desired-count 1
+          aws ecs update-service --cluster go-prod --service prod --force-new-deployment --desired-count 1
         env:
           AWS_REGION: ap-south-1
