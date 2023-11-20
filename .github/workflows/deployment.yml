@@ -31,12 +31,12 @@ jobs:
       - name: Generate timestamp for versioning
         id: timestamp
         run: |
-          IST_TIME=$(TZ=Asia/Kolkata date +%m%d%H%M)
-          echo "::set-output name=IST_TIMESTAMP::$IST_TIME"
+          UNIX_TIME=$(date +%s)
+          echo "::set-output name=UNIX_TIMESTAMP::$UNIX_TIME"
 
       - name: Build and push Docker image
         run: |
-          VERSION="dev-v1.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
+          VERSION="${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}"
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
@@ -90,12 +90,12 @@ jobs:
       - name: Generate timestamp for versioning
         id: timestamp
         run: |
-          IST_TIME=$(TZ=Asia/Kolkata date +%m%d%H%M)
-          echo "::set-output name=IST_TIMESTAMP::$IST_TIME"
+          UNIX_TIME=$(date +%s)
+          echo "::set-output name=UNIX_TIMESTAMP::$UNIX_TIME"
 
       - name: Build and push Docker image
         run: |
-          VERSION="stage-v1.${{ steps.timestamp.outputs.IST_TIMESTAMP }}"
+          VERSION="${{ steps.timestamp.outputs.UNIX_TIMESTAMP }}"
           docker build -t go-api-template .
           docker tag go-api-template:latest 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
           docker push 581741715630.dkr.ecr.ap-south-1.amazonaws.com/go-api-template:$VERSION
