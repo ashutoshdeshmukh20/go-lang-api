@@ -1,0 +1,5 @@
+---
+applications:
+  - name: cf-simple-app
+    memory: 128M
+    random-route: true
